@@ -25,7 +25,7 @@ namespace LWE {
   }
   
   void Encrypt(CipherText* ct, const SecretKey sk, int m) {
-    ct->b = (m % 4) * q / 4;
+    ct->b = (m % 3) * q / 3;
     ct->b += Sample(Chi3);
     for (int i = 0; i < n; ++i)	{
       ct->a[i] = rand() % q;
@@ -37,7 +37,7 @@ namespace LWE {
     int r = ct.b;
     for (int i = 0; i < n; ++i) r -= ct.a[i] * sk[i];
     r = ((r % q) + q + q/8) % q;
-    return 4*r/q;    
+    return 3*r/q;    
   }
 
   void DecryptDetail(const SecretKey sk, const CipherText& ct) {

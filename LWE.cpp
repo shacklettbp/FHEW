@@ -87,5 +87,27 @@ namespace LWE {
       }
     } 
   }
+
+  CipherText operator*(int s, const CipherText &c)
+  {
+    CipherText mult;
+    for (int i = 0; i < n; i++) {
+        mult.a[i] = (s * c.a[i]) % q;
+    }
+    mult.b = (s * c.b) % q;
+
+    return mult;
+  }
+
+  CipherText operator+(const CipherText &a, const CipherText &b)
+  {
+    CipherText sum;
+    for (int i = 0; i < n; i++) {
+        sum.a[i] = (a.a[i] + b.a[i]) % q;
+    }
+    sum.b = (a.b + b.b) % q;
+
+    return sum;
+  }
   
 }

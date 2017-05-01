@@ -31,6 +31,35 @@ int main(int argc, char *argv[]) {
   FHEW::EvalKey EK;
   FHEW::KeyGen(&EK, LWEsk);
   cerr << " Done.\n\n";
+
+  cerr << "Testing CT scalar multiplication\n";
+  for (int i = 0; i <= count; i++) {
+      int s = rand() % 3;
+      int v1 = rand() % 3;
+      LWE::CipherText ct;
+      LWE::Encrypt(&ct, LWEsk, v1);
+
+      LWE::CipherText sct = s * ct;
+      int sv = LWE::Decrypt(LWEsk, sct);
+      cerr << s << " * " << v1 << " = " << sv << "\n\n";
+  }
+
+  cerr << "Testing CT addition\n";
+  for (int i = 0; i <= count; i++) {
+      int v1 = rand() % 3;
+      int v2 = rand() % 3;
+      LWE::CipherText e1, e2;
+
+      LWE::Encrypt(&e1, LWEsk, v1);
+      LWE::Encrypt(&e2, LWEsk, v2);
+
+      LWE::CipherText e12 = e1 + e2;
+      int v12 = LWE::Decrypt(LWEsk, e12);
+
+      cerr << "Enc(" << v1 << ") + Enc(" << v2 << ")  = Enc(" << v12 << ")\n";
+  }
+  cerr << "\n";
+
   cerr << "Testing homomorphic NAND " << count << " times.\n"; 
   cerr << "Circuit shape : (a NAND b) NAND (c NAND d)\n\n";
 

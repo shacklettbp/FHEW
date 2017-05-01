@@ -40,6 +40,9 @@ namespace LWE {
   void ModSwitch(CipherText* ct, const CipherTextQ& c); 
   int round_qQ(ZmodQ v);
 
+  CipherText operator*(int s, const CipherText &c);
+  CipherText operator+(const CipherText &a, const CipherText &b);
+
 
 // For debbugging purpose you can use the following 
 //  void DecryptDetail(const SecretKey sk, const CipherText& ct); 
